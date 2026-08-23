@@ -1,0 +1,213 @@
+{
+  "project": {
+    "title": "InduGraph-GNN: Graph Neural Networks for Predictive Maintenance in Indian Smart Manufacturing",
+    "institution": "Centre for Industrial AI Research (CIAIR), IIT Bombay — Industry Partnership",
+    "pi": "Dr. Ananya Mehta",
+    "collaborator": "Bharat Precision Industries Pvt. Ltd.",
+    "grantId": "DST/TMD/SMART-MFG/2024/InduGraph/042",
+    "status": "Phase II — Field Validation",
+    "started": "2024-01-15",
+    "hypothesis": "Modeling factory assets as heterogeneous industrial graphs (machines, sensors, correlations) with spatio-temporal GNN layers yields ≥8% improvement in RUL MAE and ≥5% in fault F1 over LSTM baselines on real Indian shop-floor data.",
+    "objectives": [
+      "Construct dynamic heterogeneous graphs from multi-sensor industrial telemetry",
+      "Develop InduGraph-GNN architecture with graph attention and temporal encoding",
+      "Validate on 3 Indian manufacturing plants with 8 asset classes",
+      "Benchmark against LSTM, Random Forest, and Transformer baselines",
+      "Deploy edge inference pipeline with <50ms latency for production use"
+    ],
+    "publications": [
+      { "title": "InduGraph-GNN: Heterogeneous Graph Learning for Predictive Maintenance", "venue": "Under review — IEEE Transactions on Industrial Informatics", "year": 2026, "status": "submitted" },
+      { "title": "Spatio-Temporal GNN for Indian Smart Factory Degradation Modeling", "venue": "ICML 2025 Workshop on ML for Industry", "year": 2025, "status": "accepted" }
+    ]
+  },
+  "methodology": {
+    "graphConstruction": "Nodes: {factory, machine, sensor}. Edges: contains, monitors, correlates (Pearson r>0.6). Graph rebuilt every 30s from live stream.",
+    "architecture": "3-layer HeteroGAT + GRU temporal encoder → multi-task heads (RUL regression, fault classification, anomaly score)",
+    "lossFunction": "L = λ₁·MSE(RUL) + λ₂·CE(fault) + λ₃·BCE(anomaly), λ=[0.4, 0.35, 0.25]",
+    "training": "AdamW lr=1e-3, batch=32 graphs, 200 epochs, early stopping patience=15, 5-fold temporal CV",
+    "hardware": "NVIDIA A100 40GB (training), Intel Xeon edge node (inference), ap-south-1 deployment"
+  },
+  "experiments": [
+    { "id": "EXP-001", "name": "InduGraph-GNN v2.1 (Production)", "status": "deployed", "date": "2026-07-28", "epochs": 200, "bestEpoch": 167, "lr": 0.001, "batchSize": 32, "f1": 0.912, "accuracy": 94.2, "rulMae": 18.4, "rulRmse": 24.7, "auc": 0.967, "latencyMs": 45, "params": "2.4M", "notes": "Current production model — heterogeneous GAT + GRU" },
+    { "id": "EXP-002", "name": "InduGraph-GNN v2.0", "status": "archived", "date": "2026-05-12", "epochs": 180, "bestEpoch": 152, "lr": 0.001, "batchSize": 32, "f1": 0.891, "accuracy": 92.1, "rulMae": 21.2, "rulRmse": 28.1, "auc": 0.951, "latencyMs": 52, "params": "2.1M", "notes": "Homogeneous GCN baseline within our framework" },
+    { "id": "EXP-003", "name": "LSTM Baseline (Uni-sensor)", "status": "baseline", "date": "2026-04-20", "epochs": 150, "bestEpoch": 128, "lr": 0.0005, "batchSize": 64, "f1": 0.834, "accuracy": 87.6, "rulMae": 28.9, "rulRmse": 36.4, "auc": 0.912, "latencyMs": 38, "params": "1.8M", "notes": "Standard LSTM on concatenated sensor streams" },
+    { "id": "EXP-004", "name": "Random Forest (Hand-crafted)", "status": "baseline", "date": "2026-04-15", "epochs": 0, "bestEpoch": 0, "lr": 0, "batchSize": 0, "f1": 0.798, "accuracy": 84.2, "rulMae": 32.1, "rulRmse": 41.2, "auc": 0.887, "latencyMs": 12, "params": "—", "notes": "47 hand-crafted features, 500 trees" },
+    { "id": "EXP-005", "name": "Transformer (PatchTST)", "status": "baseline", "date": "2026-06-01", "epochs": 120, "bestEpoch": 98, "lr": 0.0003, "batchSize": 16, "f1": 0.856, "accuracy": 89.4, "rulMae": 25.6, "rulRmse": 31.8, "auc": 0.928, "latencyMs": 68, "params": "4.2M", "notes": "Patch-based time series transformer" },
+    { "id": "EXP-006", "name": "InduGraph-GNN v2.1 + Uncertainty", "status": "experimental", "date": "2026-08-01", "epochs": 220, "bestEpoch": 189, "lr": 0.0008, "batchSize": 32, "f1": 0.908, "accuracy": 93.8, "rulMae": 17.9, "rulRmse": 23.9, "auc": 0.964, "latencyMs": 58, "params": "2.6M", "notes": "MC Dropout uncertainty quantification (T=20 samples)" }
+  ],
+  "trainingCurves": {
+    "EXP-001": {
+      "epochs": [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 167, 180, 200],
+      "trainLoss": [0.82, 0.61, 0.48, 0.39, 0.33, 0.28, 0.24, 0.21, 0.19, 0.17, 0.16, 0.15, 0.14, 0.135, 0.132, 0.128, 0.127, 0.126, 0.125],
+      "valLoss": [0.88, 0.70, 0.55, 0.46, 0.40, 0.36, 0.33, 0.30, 0.28, 0.27, 0.265, 0.260, 0.258, 0.256, 0.254, 0.252, 0.251, 0.253, 0.255],
+      "valF1": [0.72, 0.78, 0.83, 0.86, 0.88, 0.89, 0.90, 0.905, 0.908, 0.910, 0.911, 0.912, 0.912, 0.911, 0.912, 0.912, 0.912, 0.911, 0.910]
+    }
+  },
+  "benchmarks": {
+    "metrics": ["F1 Score", "Accuracy", "RUL MAE (hrs)", "AUC-ROC", "Latency (ms)"],
+    "models": [
+      { "name": "InduGraph-GNN v2.1", "type": "proposed", "f1": 0.912, "accuracy": 94.2, "rulMae": 18.4, "auc": 0.967, "latency": 45 },
+      { "name": "InduGraph-GNN v2.0", "type": "proposed", "f1": 0.891, "accuracy": 92.1, "rulMae": 21.2, "auc": 0.951, "latency": 52 },
+      { "name": "Transformer (PatchTST)", "type": "baseline", "f1": 0.856, "accuracy": 89.4, "rulMae": 25.6, "auc": 0.928, "latency": 68 },
+      { "name": "LSTM", "type": "baseline", "f1": 0.834, "accuracy": 87.6, "rulMae": 28.9, "auc": 0.912, "latency": 38 },
+      { "name": "Random Forest", "type": "baseline", "f1": 0.798, "accuracy": 84.2, "rulMae": 32.1, "auc": 0.887, "latency": 12 }
+    ],
+    "improvementOverLSTM": { "f1": "+9.4%", "rulMae": "-36.3%", "auc": "+6.0%" }
+  },
+  "ablationStudies": [
+    { "config": "Full Model (GAT+GRU+Multi-task)", "f1": 0.912, "rulMae": 18.4, "delta": "—" },
+    { "config": "w/o Graph Attention (GCN only)", "f1": 0.878, "rulMae": 23.1, "delta": "-3.7% F1" },
+    { "config": "w/o Temporal Encoder (GRU)", "f1": 0.865, "rulMae": 25.8, "delta": "-5.1% F1" },
+    { "config": "w/o Correlation Edges", "f1": 0.889, "rulMae": 20.6, "delta": "-2.5% F1" },
+    { "config": "w/o Multi-task Learning", "f1": 0.896, "rulMae": 19.8, "delta": "-1.8% F1" },
+    { "config": "w/o Heterogeneous Node Types", "f1": 0.871, "rulMae": 24.4, "delta": "-4.5% F1" },
+    { "config": "Single Sensor Input Only", "f1": 0.812, "rulMae": 31.5, "delta": "-11.0% F1" }
+  ],
+  "confusionMatrix": {
+    "labels": ["Normal", "Degraded", "Fault", "Critical"],
+    "matrix": [[142, 8, 2, 0], [6, 38, 4, 1], [1, 5, 28, 3], [0, 1, 2, 12]]
+  },
+  "researchDatasets": [
+    { "id": "DS-INDU-01", "name": "Bharat Precision Shop-Floor 2024-26", "samples": 2840000, "machines": 8, "sensors": 18, "duration": "18 months", "split": "70/15/15", "frequency": "1 Hz", "license": "Research-only (NDA)", "citation": "Mehta et al., InduGraph Dataset, 2026" },
+    { "id": "DS-INDU-02", "name": "C-MAPSS Turbofan (Benchmark)", "samples": 100000, "machines": 100, "sensors": 21, "duration": "Simulated", "split": "FD001-FD004", "frequency": "Cycle-based", "license": "NASA Open", "citation": "Saxena et al., PHM 2008" },
+    { "id": "DS-INDU-03", "name": "Pune Vibration Corpus", "samples": 890000, "machines": 12, "sensors": 8, "duration": "6 months", "split": "60/20/20", "frequency": "10 Hz", "license": "CIAIR Internal", "citation": "CIAIR Technical Report TR-2025-07" },
+    { "id": "DS-INDU-04", "name": "Synthetic Degradation Augmentation", "samples": 500000, "machines": 50, "sensors": 15, "duration": "Generated", "split": "80/10/10", "frequency": "1 Hz", "license": "Synthetic", "citation": "Generated via physics-informed simulation" }
+  ],
+  "labNotebook": [
+    { "id": "NB-001", "date": "2026-08-12", "author": "Dr. Mehta", "tag": "Finding", "title": "Correlation edges improve bearing fault detection by 4.2%", "content": "Ablation EXP-A3 confirms that machine-machine correlation edges (Pearson r>0.6) are critical for cross-asset fault propagation detection. Removing them drops F1 from 0.912 to 0.889 on the Pune plant subset." },
+    { "id": "NB-002", "date": "2026-08-08", "author": "R. Sharma", "tag": "Experiment", "title": "MC Dropout uncertainty calibration on RUL", "content": "EXP-006 with T=20 MC Dropout samples achieves 92% coverage on 90% prediction intervals. Recommended for deployment on critical assets (health < 60%)." },
+    { "id": "NB-003", "date": "2026-07-28", "author": "Dr. Mehta", "tag": "Deployment", "title": "v2.1 deployed to ap-south-1 production", "content": "Model passed field validation on all 3 plants. Inference latency p99=45ms. Monitoring dashboard live. Next: publish TII paper with field results." },
+    { "id": "NB-004", "date": "2026-07-15", "author": "P. Venkatesh", "tag": "Data", "title": "Chennai plant data quality audit", "content": "Identified 2.3% missing readings in Conveyor CV-200 sensor stream. Applied forward-fill + uncertainty flagging. Retrain scheduled for August." },
+    { "id": "NB-005", "date": "2026-06-20", "author": "R. Sharma", "tag": "Hypothesis", "title": "Graph vs sequence: when does GNN win?", "content": "GNN advantage is largest (+11% F1) when assets share utility dependencies (compressor → multiple machines). Single isolated assets show only +3% gain. Paper Section 4.3." },
+    { "id": "NB-006", "date": "2026-05-01", "author": "Dr. Mehta", "tag": "Review", "title": "ICML workshop paper accepted", "content": "Reviewer 2 requested ablation on heterogeneous node types — added to EXP-A5. Camera-ready due Sept 2026." }
+  ],
+  "explainability": {
+    "globalFeatureImportance": [
+      { "feature": "Vibration RMS (sensor)", "importance": 0.28 },
+      { "feature": "Temperature trend (7-day)", "importance": 0.19 },
+      { "feature": "Cross-machine correlation", "importance": 0.16 },
+      { "feature": "Operating hours since maintenance", "importance": 0.14 },
+      { "feature": "Pressure variance", "importance": 0.11 },
+      { "feature": "Graph node centrality", "importance": 0.08 },
+      { "feature": "Shift pattern encoding", "importance": 0.04 }
+    ],
+    "fleetNodeAttention": [
+      { "node": "Hydraulic Press HP-450", "attention": 0.312 },
+      { "node": "CNC Mill CM-500", "attention": 0.287 },
+      { "node": "vibration (cross-asset)", "attention": 0.264 },
+      { "node": "Air Compressor AC-200", "attention": 0.241 },
+      { "node": "Industrial Robot IR-6X", "attention": 0.218 },
+      { "node": "temperature trend", "attention": 0.196 },
+      { "node": "Conveyor CV-200", "attention": 0.174 },
+      { "node": "pressure (utility graph)", "attention": 0.158 },
+      { "node": "Welding Station WS-100", "attention": 0.142 },
+      { "node": "spindle_speed", "attention": 0.128 }
+    ],
+    "fleetSaliencyMap": [
+      { "sensor": "HP-450 · vibration", "saliency": 0.87 },
+      { "sensor": "HP-450 · oil_temp", "saliency": 0.79 },
+      { "sensor": "CM-500 · vibration", "saliency": 0.72 },
+      { "sensor": "AC-200 · discharge_temp", "saliency": 0.68 },
+      { "sensor": "IR-6X · motor_current", "saliency": 0.61 },
+      { "sensor": "CV-200 · belt_tension", "saliency": 0.54 },
+      { "sensor": "CM-500 · temperature", "saliency": 0.48 },
+      { "sensor": "WS-100 · weld_current", "saliency": 0.41 }
+    ]
+  },
+  "labCompute": {
+    "cluster": "CIAIR A100 Cluster · ap-south-1",
+    "gpus": [
+      { "id": "GPU-0", "model": "A100 40GB", "utilization": 78, "memoryUsed": 31.2, "memoryTotal": 40, "job": "EXP-006 uncertainty retrain" },
+      { "id": "GPU-1", "model": "A100 40GB", "utilization": 45, "memoryUsed": 18.4, "memoryTotal": 40, "job": "Optuna hyperparam sweep" },
+      { "id": "GPU-2", "model": "A100 40GB", "utilization": 0, "memoryUsed": 0, "memoryTotal": 40, "job": "Idle" },
+      { "id": "GPU-3", "model": "A100 40GB", "utilization": 92, "memoryUsed": 36.8, "memoryTotal": 40, "job": "Graph embedding precompute" }
+    ],
+    "queue": [
+      { "id": "JOB-1042", "name": "Ablation w/o GAT heads", "status": "queued", "eta": "2h 15m", "priority": "high" },
+      { "id": "JOB-1043", "name": "Field validation — Chennai plant", "status": "queued", "eta": "4h 30m", "priority": "medium" },
+      { "id": "JOB-1044", "name": "C-MAPSS benchmark replication", "status": "running", "eta": "45m left", "priority": "low" }
+    ],
+    "storageUsedTB": 2.4,
+    "storageTotalTB": 10
+  },
+  "researchPipeline": [
+    { "stage": "Data Ingestion & QC", "status": "complete", "progress": 100, "owner": "P. Venkatesh" },
+    { "stage": "Graph Construction", "status": "complete", "progress": 100, "owner": "R. Sharma" },
+    { "stage": "Model Training & HPO", "status": "active", "progress": 72, "owner": "Dr. Mehta" },
+    { "stage": "Ablation Studies", "status": "active", "progress": 85, "owner": "R. Sharma" },
+    { "stage": "Field Validation (3 plants)", "status": "active", "progress": 60, "owner": "CIAIR + BPI" },
+    { "stage": "Paper & Patent Submission", "status": "pending", "progress": 30, "owner": "Dr. Mehta" }
+  ],
+  "hyperparamSearch": {
+    "framework": "Optuna (TPE sampler)",
+    "trials": 48,
+    "bestTrial": { "id": 37, "f1": 0.914, "rulMae": 17.8, "lr": 0.0008, "heads": 4, "hiddenDim": 128, "dropout": 0.15, "score": 0.912 },
+    "topTrials": [
+      { "trial": 37, "f1": 0.914, "rulMae": 17.8, "lr": 0.0008, "score": 0.912 },
+      { "trial": 41, "f1": 0.911, "rulMae": 18.1, "lr": 0.001, "score": 0.908 },
+      { "trial": 29, "f1": 0.909, "rulMae": 18.5, "lr": 0.0006, "score": 0.904 },
+      { "trial": 44, "f1": 0.907, "rulMae": 19.0, "lr": 0.0005, "score": 0.899 },
+      { "trial": 22, "f1": 0.905, "rulMae": 19.4, "lr": 0.0012, "score": 0.895 }
+    ]
+  },
+  "crossValidation": {
+    "folds": 5,
+    "strategy": "Temporal blocked CV (plant-wise holdout)",
+    "results": [
+      { "fold": 1, "plant": "Pune", "f1": 0.908, "rulMae": 19.1, "auc": 0.962 },
+      { "fold": 2, "plant": "Chennai", "f1": 0.915, "rulMae": 17.9, "auc": 0.968 },
+      { "fold": 3, "plant": "Ahmedabad", "f1": 0.906, "rulMae": 19.8, "auc": 0.960 },
+      { "fold": 4, "plant": "Pune (held-out)", "f1": 0.912, "rulMae": 18.2, "auc": 0.965 },
+      { "fold": 5, "plant": "Mixed", "f1": 0.910, "rulMae": 18.5, "auc": 0.964 }
+    ],
+    "mean": { "f1": 0.910, "rulMae": 18.7, "auc": 0.964 },
+    "std": { "f1": 0.003, "rulMae": 0.7, "auc": 0.003 }
+  },
+  "graphAnalytics": {
+    "nodeTypes": [
+      { "type": "Factory", "count": 3 },
+      { "type": "Machine", "count": 8 },
+      { "type": "Sensor", "count": 18 }
+    ],
+    "edgeTypes": [
+      { "type": "contains (factory→machine)", "count": 8 },
+      { "type": "monitors (machine→sensor)", "count": 18 },
+      { "type": "correlates (machine↔machine)", "count": 11 },
+      { "type": "utility (compressor→asset)", "count": 6 }
+    ],
+    "topCentrality": [
+      { "node": "Hydraulic Press HP-450", "score": 0.89, "type": "machine" },
+      { "node": "Air Compressor AC-200", "score": 0.84, "type": "machine" },
+      { "node": "CNC Mill CM-500", "score": 0.78, "type": "machine" },
+      { "node": "vibration (HP-450)", "score": 0.72, "type": "sensor" },
+      { "node": "Industrial Robot IR-6X", "score": 0.69, "type": "machine" },
+      { "node": "Pune Plant", "score": 0.65, "type": "factory" }
+    ],
+    "rebuildHistory": [
+      { "time": "16:14:00", "nodes": 29, "edges": 43, "durationMs": 118 },
+      { "time": "16:13:30", "nodes": 29, "edges": 43, "durationMs": 121 },
+      { "time": "16:13:00", "nodes": 29, "edges": 42, "durationMs": 115 },
+      { "time": "16:12:30", "nodes": 29, "edges": 42, "durationMs": 124 },
+      { "time": "16:12:00", "nodes": 29, "edges": 43, "durationMs": 119 }
+    ]
+  },
+  "hyperparamSearchSpace": {
+    "lr": { "min": 0.0001, "max": 0.003, "type": "log" },
+    "hiddenDim": [64, 128, 256],
+    "gatHeads": [2, 4, 8],
+    "dropout": { "min": 0.05, "max": 0.35 },
+    "batchSize": [16, 32, 64]
+  },
+  "modelRegistry": [
+    { "version": "v2.1", "experimentId": "EXP-001", "status": "production", "deployedAt": "2026-07-28", "plants": ["Pune", "Chennai", "Ahmedabad"], "f1": 0.912, "checksum": "sha256:a3f8…c21" },
+    { "version": "v2.1-uq", "experimentId": "EXP-006", "status": "staging", "deployedAt": null, "plants": ["Pune (canary)"], "f1": 0.908, "checksum": "sha256:b7e2…d04" },
+    { "version": "v2.0", "experimentId": "EXP-002", "status": "archived", "deployedAt": "2026-05-12", "plants": [], "f1": 0.891, "checksum": "sha256:9c1a…f88" }
+  ],
+  "featureDrift": [
+    { "feature": "Vibration RMS", "baseline": 2.4, "current": 2.9, "driftPct": 20.8, "status": "warning" },
+    { "feature": "Temperature trend", "baseline": 58.2, "current": 59.1, "driftPct": 1.5, "status": "stable" },
+    { "feature": "Pressure variance", "baseline": 12.1, "current": 14.8, "driftPct": 22.3, "status": "warning" },
+    { "feature": "Cross-machine correlation", "baseline": 0.62, "current": 0.59, "driftPct": -4.8, "status": "stable" },
+    { "feature": "Operating hours", "baseline": 420, "current": 438, "driftPct": 4.3, "status": "stable" }
+  ]
+}

@@ -1,0 +1,437 @@
+{
+  "organization": {
+    "name": "Bharat Precision Industries Pvt. Ltd.",
+    "gstin": "27AABCB1234F1Z5",
+    "plan": "Enterprise",
+    "region": "India",
+    "currency": "INR"
+  },
+  "factories": [
+    {
+      "id": "F-PUN",
+      "name": "Pune Smart Factory",
+      "location": "Chakan MIDC, Pune, Maharashtra",
+      "state": "Maharashtra",
+      "capacity": 850,
+      "oee": 78.4,
+      "uptime": 96.2,
+      "employees": 420,
+      "manager": "Rajesh Kulkarni",
+      "shiftPattern": "3-shift (6AM-2PM, 2PM-10PM, 10PM-6AM IST)"
+    },
+    {
+      "id": "F-CHE",
+      "name": "Chennai Assembly Hub",
+      "location": "Sriperumbudur, Chennai, Tamil Nadu",
+      "state": "Tamil Nadu",
+      "capacity": 620,
+      "oee": 82.1,
+      "uptime": 97.5,
+      "employees": 310,
+      "manager": "Priya Venkatesh",
+      "shiftPattern": "2-shift (7AM-7PM IST)"
+    },
+    {
+      "id": "F-AMD",
+      "name": "Ahmedabad CNC Plant",
+      "location": "Sanand GIDC, Ahmedabad, Gujarat",
+      "state": "Gujarat",
+      "capacity": 540,
+      "oee": 74.8,
+      "uptime": 94.8,
+      "employees": 265,
+      "manager": "Amit Shah",
+      "shiftPattern": "3-shift (6AM-2PM, 2PM-10PM, 10PM-6AM IST)"
+    },
+    {
+      "id": "F-BLR",
+      "name": "Bangalore Tech Park Plant",
+      "location": "Peenya Industrial Area, Bengaluru, Karnataka",
+      "state": "Karnataka",
+      "capacity": 720,
+      "oee": 81.3,
+      "uptime": 97.1,
+      "employees": 380,
+      "manager": "Karthik Reddy",
+      "shiftPattern": "3-shift (6AM-2PM, 2PM-10PM, 10PM-6AM IST)"
+    },
+    {
+      "id": "F-KOL",
+      "name": "Kolkata Heavy Engineering",
+      "location": "Taratala Industrial Estate, Kolkata, West Bengal",
+      "state": "West Bengal",
+      "capacity": 480,
+      "oee": 73.6,
+      "uptime": 93.9,
+      "employees": 220,
+      "manager": "Subhash Banerjee",
+      "shiftPattern": "2-shift (7AM-7PM IST)"
+    },
+    {
+      "id": "F-CBE",
+      "name": "Coimbatore Textile Machinery Hub",
+      "location": "SIDCO Industrial Estate, Coimbatore, Tamil Nadu",
+      "state": "Tamil Nadu",
+      "capacity": 390,
+      "oee": 79.2,
+      "uptime": 95.4,
+      "employees": 185,
+      "manager": "Lakshmi Narayanan",
+      "shiftPattern": "3-shift (6AM-2PM, 2PM-10PM, 10PM-6AM IST)"
+    }
+  ],
+  "machines": [
+    {
+      "id": "M-PUN-001",
+      "name": "CNC Lathe XL-900",
+      "type": "CNC Lathe",
+      "factoryId": "F-PUN",
+      "line": "Line A",
+      "health": 88,
+      "status": "operational",
+      "rulHours": 520,
+      "rulDays": 22,
+      "lastMaintenance": "2026-07-18T06:00:00+05:30",
+      "nextMaintenance": "2026-08-25T06:00:00+05:30",
+      "costPerHourINR": 1250,
+      "sensors": [
+        { "id": "S1", "type": "vibration", "unit": "mm/s", "latest": 2.8, "threshold": 6.0 },
+        { "id": "S2", "type": "temperature", "unit": "°C", "latest": 62.4, "threshold": 85 },
+        { "id": "S3", "type": "spindle_speed", "unit": "RPM", "latest": 3200, "threshold": 4500 }
+      ],
+      "readings": {
+        "vibration": [2.1, 2.3, 2.5, 2.4, 2.6, 2.7, 2.8],
+        "temperature": [58, 59, 60, 61, 61.5, 62, 62.4],
+        "spindle_speed": [3100, 3120, 3150, 3180, 3190, 3200, 3200]
+      },
+      "faults": [],
+      "anomalyScore": 0.12
+    },
+    {
+      "id": "M-PUN-002",
+      "name": "Hydraulic Press HP-450",
+      "type": "Hydraulic Press",
+      "factoryId": "F-PUN",
+      "line": "Line B",
+      "health": 58,
+      "status": "critical",
+      "rulHours": 72,
+      "rulDays": 3,
+      "lastMaintenance": "2026-06-10T06:00:00+05:30",
+      "nextMaintenance": "2026-08-14T06:00:00+05:30",
+      "costPerHourINR": 980,
+      "sensors": [
+        { "id": "S4", "type": "pressure", "unit": "bar", "latest": 285, "threshold": 320 },
+        { "id": "S5", "type": "vibration", "unit": "mm/s", "latest": 7.8, "threshold": 6.0 },
+        { "id": "S6", "type": "oil_temp", "unit": "°C", "latest": 78.2, "threshold": 75 }
+      ],
+      "readings": {
+        "pressure": [260, 265, 270, 275, 280, 283, 285],
+        "vibration": [4.2, 5.1, 5.8, 6.5, 7.0, 7.5, 7.8],
+        "oil_temp": [68, 70, 72, 74, 76, 77, 78.2]
+      },
+      "faults": [{ "type": "bearing_wear", "probability": 0.87, "confidence": 0.91 }],
+      "anomalyScore": 0.89
+    },
+    {
+      "id": "M-PUN-003",
+      "name": "Industrial Robot IR-6X",
+      "type": "Robotic Arm",
+      "factoryId": "F-PUN",
+      "line": "Line C",
+      "health": 91,
+      "status": "operational",
+      "rulHours": 890,
+      "rulDays": 37,
+      "lastMaintenance": "2026-07-01T06:00:00+05:30",
+      "nextMaintenance": "2026-09-01T06:00:00+05:30",
+      "costPerHourINR": 2100,
+      "sensors": [
+        { "id": "S7", "type": "torque", "unit": "Nm", "latest": 45.2, "threshold": 80 },
+        { "id": "S8", "type": "current", "unit": "A", "latest": 8.4, "threshold": 15 }
+      ],
+      "readings": {
+        "torque": [42, 43, 44, 44.5, 45, 45.1, 45.2],
+        "current": [7.8, 8.0, 8.1, 8.2, 8.3, 8.35, 8.4]
+      },
+      "faults": [],
+      "anomalyScore": 0.08
+    },
+    {
+      "id": "M-CHE-001",
+      "name": "Conveyor System CV-200",
+      "type": "Conveyor",
+      "factoryId": "F-CHE",
+      "line": "Assembly 1",
+      "health": 76,
+      "status": "degraded",
+      "rulHours": 180,
+      "rulDays": 8,
+      "lastMaintenance": "2026-07-05T07:00:00+05:30",
+      "nextMaintenance": "2026-08-20T07:00:00+05:30",
+      "costPerHourINR": 650,
+      "sensors": [
+        { "id": "S9", "type": "motor_current", "unit": "A", "latest": 14.2, "threshold": 18 },
+        { "id": "S10", "type": "belt_tension", "unit": "N", "latest": 890, "threshold": 1000 }
+      ],
+      "readings": {
+        "motor_current": [12, 12.5, 13, 13.5, 13.8, 14, 14.2],
+        "belt_tension": [920, 910, 905, 900, 895, 892, 890]
+      },
+      "faults": [{ "type": "belt_misalignment", "probability": 0.62, "confidence": 0.78 }],
+      "anomalyScore": 0.54
+    },
+    {
+      "id": "M-CHE-002",
+      "name": "Injection Moulder IM-800",
+      "type": "Injection Moulding",
+      "factoryId": "F-CHE",
+      "line": "Assembly 2",
+      "health": 84,
+      "status": "operational",
+      "rulHours": 410,
+      "rulDays": 17,
+      "lastMaintenance": "2026-07-20T07:00:00+05:30",
+      "nextMaintenance": "2026-08-28T07:00:00+05:30",
+      "costPerHourINR": 1800,
+      "sensors": [
+        { "id": "S11", "type": "melt_temp", "unit": "°C", "latest": 245, "threshold": 280 },
+        { "id": "S12", "type": "cycle_time", "unit": "sec", "latest": 28.5, "threshold": 35 }
+      ],
+      "readings": {
+        "melt_temp": [240, 241, 242, 243, 244, 244.5, 245],
+        "cycle_time": [27, 27.5, 28, 28.2, 28.3, 28.4, 28.5]
+      },
+      "faults": [],
+      "anomalyScore": 0.15
+    },
+    {
+      "id": "M-AMD-001",
+      "name": "Air Compressor AC-750",
+      "type": "Compressor",
+      "factoryId": "F-AMD",
+      "line": "Utility",
+      "health": 71,
+      "status": "degraded",
+      "rulHours": 150,
+      "rulDays": 6,
+      "lastMaintenance": "2026-06-28T06:00:00+05:30",
+      "nextMaintenance": "2026-08-16T06:00:00+05:30",
+      "costPerHourINR": 720,
+      "sensors": [
+        { "id": "S13", "type": "vibration", "unit": "mm/s", "latest": 5.4, "threshold": 6.0 },
+        { "id": "S14", "type": "discharge_pressure", "unit": "bar", "latest": 7.2, "threshold": 8.5 }
+      ],
+      "readings": {
+        "vibration": [3.8, 4.2, 4.6, 4.9, 5.1, 5.3, 5.4],
+        "discharge_pressure": [7.0, 7.0, 7.1, 7.1, 7.15, 7.18, 7.2]
+      },
+      "faults": [{ "type": "seal_degradation", "probability": 0.55, "confidence": 0.72 }],
+      "anomalyScore": 0.48
+    },
+    {
+      "id": "M-AMD-002",
+      "name": "CNC Milling MC-5000",
+      "type": "CNC Mill",
+      "factoryId": "F-AMD",
+      "line": "Precision",
+      "health": 93,
+      "status": "operational",
+      "rulHours": 680,
+      "rulDays": 28,
+      "lastMaintenance": "2026-07-25T06:00:00+05:30",
+      "nextMaintenance": "2026-09-05T06:00:00+05:30",
+      "costPerHourINR": 1650,
+      "sensors": [
+        { "id": "S15", "type": "vibration", "unit": "mm/s", "latest": 1.9, "threshold": 6.0 },
+        { "id": "S16", "type": "coolant_temp", "unit": "°C", "latest": 22.5, "threshold": 30 }
+      ],
+      "readings": {
+        "vibration": [1.5, 1.6, 1.7, 1.75, 1.8, 1.85, 1.9],
+        "coolant_temp": [21, 21.5, 22, 22.1, 22.2, 22.4, 22.5]
+      },
+      "faults": [],
+      "anomalyScore": 0.06
+    },
+    {
+      "id": "M-AMD-003",
+      "name": "Welding Station WS-120",
+      "type": "Welding",
+      "factoryId": "F-AMD",
+      "line": "Fabrication",
+      "health": 67,
+      "status": "degraded",
+      "rulHours": 96,
+      "rulDays": 4,
+      "lastMaintenance": "2026-06-15T06:00:00+05:30",
+      "nextMaintenance": "2026-08-15T06:00:00+05:30",
+      "costPerHourINR": 540,
+      "sensors": [
+        { "id": "S17", "type": "arc_voltage", "unit": "V", "latest": 24.8, "threshold": 30 },
+        { "id": "S18", "type": "wire_feed", "unit": "m/min", "latest": 4.2, "threshold": 6 }
+      ],
+      "readings": {
+        "arc_voltage": [23.5, 24, 24.2, 24.4, 24.6, 24.7, 24.8],
+        "wire_feed": [3.8, 3.9, 4.0, 4.05, 4.1, 4.15, 4.2]
+      },
+      "faults": [{ "type": "electrode_wear", "probability": 0.71, "confidence": 0.84 }],
+      "anomalyScore": 0.61
+    },
+    {
+      "id": "M-BLR-001",
+      "name": "5-Axis CNC VM-8000",
+      "type": "CNC Mill",
+      "factoryId": "F-BLR",
+      "line": "Precision A",
+      "health": 62,
+      "status": "degraded",
+      "rulHours": 110,
+      "rulDays": 5,
+      "lastMaintenance": "2026-06-22T06:00:00+05:30",
+      "nextMaintenance": "2026-08-18T06:00:00+05:30",
+      "costPerHourINR": 1950,
+      "sensors": [
+        { "id": "S19", "type": "spindle_vibration", "unit": "mm/s", "latest": 6.2, "threshold": 6.0 },
+        { "id": "S20", "type": "motor_temp", "unit": "°C", "latest": 88.5, "threshold": 85 },
+        { "id": "S21", "type": "tool_wear", "unit": "μm", "latest": 142, "threshold": 150 }
+      ],
+      "readings": {
+        "spindle_vibration": [4.1, 4.8, 5.2, 5.6, 5.9, 6.0, 6.2],
+        "motor_temp": [78, 80, 82, 84, 86, 87, 88.5],
+        "tool_wear": [120, 125, 130, 134, 138, 140, 142]
+      },
+      "faults": [{ "type": "motor_overload", "probability": 0.79, "confidence": 0.86 }],
+      "anomalyScore": 0.72
+    },
+    {
+      "id": "M-BLR-002",
+      "name": "Assembly Robot AR-12",
+      "type": "Robotic Arm",
+      "factoryId": "F-BLR",
+      "line": "Assembly B",
+      "health": 89,
+      "status": "operational",
+      "rulHours": 640,
+      "rulDays": 27,
+      "lastMaintenance": "2026-07-10T06:00:00+05:30",
+      "nextMaintenance": "2026-09-08T06:00:00+05:30",
+      "costPerHourINR": 1750,
+      "sensors": [
+        { "id": "S22", "type": "joint_torque", "unit": "Nm", "latest": 38.5, "threshold": 70 },
+        { "id": "S23", "type": "encoder_drift", "unit": "deg", "latest": 0.8, "threshold": 2.0 }
+      ],
+      "readings": {
+        "joint_torque": [35, 36, 36.5, 37, 37.5, 38, 38.5],
+        "encoder_drift": [0.3, 0.4, 0.5, 0.6, 0.7, 0.75, 0.8]
+      },
+      "faults": [],
+      "anomalyScore": 0.11
+    },
+    {
+      "id": "M-KOL-001",
+      "name": "Heavy Lathe HL-2000",
+      "type": "CNC Lathe",
+      "factoryId": "F-KOL",
+      "line": "Heavy Fab",
+      "health": 55,
+      "status": "critical",
+      "rulHours": 48,
+      "rulDays": 2,
+      "lastMaintenance": "2026-05-28T06:00:00+05:30",
+      "nextMaintenance": "2026-08-15T06:00:00+05:30",
+      "costPerHourINR": 1100,
+      "sensors": [
+        { "id": "S24", "type": "vibration", "unit": "mm/s", "latest": 8.1, "threshold": 6.0 },
+        { "id": "S25", "type": "bearing_temp", "unit": "°C", "latest": 92.3, "threshold": 80 }
+      ],
+      "readings": {
+        "vibration": [5.2, 5.8, 6.4, 7.0, 7.5, 7.9, 8.1],
+        "bearing_temp": [75, 78, 82, 85, 88, 90, 92.3]
+      },
+      "faults": [{ "type": "bearing_wear", "probability": 0.92, "confidence": 0.94 }],
+      "anomalyScore": 0.91
+    },
+    {
+      "id": "M-KOL-002",
+      "name": "Industrial Furnace IF-500",
+      "type": "Furnace",
+      "factoryId": "F-KOL",
+      "line": "Heat Treat",
+      "health": 64,
+      "status": "degraded",
+      "rulHours": 120,
+      "rulDays": 5,
+      "lastMaintenance": "2026-06-05T06:00:00+05:30",
+      "nextMaintenance": "2026-08-17T06:00:00+05:30",
+      "costPerHourINR": 890,
+      "sensors": [
+        { "id": "S26", "type": "chamber_temp", "unit": "°C", "latest": 842, "threshold": 900 },
+        { "id": "S27", "type": "coolant_flow", "unit": "L/min", "latest": 8.2, "threshold": 12 }
+      ],
+      "readings": {
+        "chamber_temp": [820, 825, 830, 835, 838, 840, 842],
+        "coolant_flow": [11, 10.5, 10, 9.5, 9, 8.5, 8.2]
+      },
+      "faults": [{ "type": "thermal_runaway", "probability": 0.68, "confidence": 0.81 }],
+      "anomalyScore": 0.66
+    },
+    {
+      "id": "M-CBE-001",
+      "name": "Spinning Machine SP-300",
+      "type": "Textile Spinner",
+      "factoryId": "F-CBE",
+      "line": "Spinning 1",
+      "health": 78,
+      "status": "degraded",
+      "rulHours": 200,
+      "rulDays": 8,
+      "lastMaintenance": "2026-07-08T06:00:00+05:30",
+      "nextMaintenance": "2026-08-22T06:00:00+05:30",
+      "costPerHourINR": 620,
+      "sensors": [
+        { "id": "S28", "type": "spindle_speed", "unit": "RPM", "latest": 14200, "threshold": 15000 },
+        { "id": "S29", "type": "yarn_tension", "unit": "cN", "latest": 28.5, "threshold": 35 }
+      ],
+      "readings": {
+        "spindle_speed": [14100, 14120, 14140, 14160, 14180, 14190, 14200],
+        "yarn_tension": [26, 26.5, 27, 27.5, 28, 28.2, 28.5]
+      },
+      "faults": [{ "type": "belt_misalignment", "probability": 0.58, "confidence": 0.74 }],
+      "anomalyScore": 0.52
+    },
+    {
+      "id": "M-CBE-002",
+      "name": "Packaging Line PK-100",
+      "type": "Packaging",
+      "factoryId": "F-CBE",
+      "line": "Packaging",
+      "health": 86,
+      "status": "operational",
+      "rulHours": 450,
+      "rulDays": 19,
+      "lastMaintenance": "2026-07-15T06:00:00+05:30",
+      "nextMaintenance": "2026-08-30T06:00:00+05:30",
+      "costPerHourINR": 480,
+      "sensors": [
+        { "id": "S30", "type": "conveyor_speed", "unit": "m/min", "latest": 42, "threshold": 50 },
+        { "id": "S31", "type": "seal_pressure", "unit": "bar", "latest": 3.8, "threshold": 5.0 }
+      ],
+      "readings": {
+        "conveyor_speed": [40, 40.5, 41, 41.2, 41.5, 41.8, 42],
+        "seal_pressure": [3.5, 3.6, 3.65, 3.7, 3.75, 3.78, 3.8]
+      },
+      "faults": [],
+      "anomalyScore": 0.14
+    }
+  ],
+  "maintenanceTasks": [
+    { "id": "MT-1", "machineId": "M-PUN-002", "type": "Emergency", "task": "Replace hydraulic pump bearings", "dueDate": "2026-08-14", "costINR": 85000, "priority": "critical" },
+    { "id": "MT-2", "machineId": "M-AMD-003", "type": "Scheduled", "task": "Welding electrode replacement & calibration", "dueDate": "2026-08-15", "costINR": 12000, "priority": "high" },
+    { "id": "MT-3", "machineId": "M-AMD-001", "type": "Predictive", "task": "Compressor seal inspection (GNN predicted)", "dueDate": "2026-08-16", "costINR": 28000, "priority": "high" },
+    { "id": "MT-4", "machineId": "M-CHE-001", "type": "Predictive", "task": "Conveyor belt realignment", "dueDate": "2026-08-20", "costINR": 35000, "priority": "medium" },
+    { "id": "MT-5", "machineId": "M-PUN-001", "type": "Scheduled", "task": "CNC spindle lubrication service", "dueDate": "2026-08-25", "costINR": 18000, "priority": "low" },
+    { "id": "MT-6", "machineId": "M-KOL-001", "type": "Emergency", "task": "Replace main spindle bearings — critical GNN alert", "dueDate": "2026-08-15", "costINR": 125000, "priority": "critical" },
+    { "id": "MT-7", "machineId": "M-BLR-001", "type": "Predictive", "task": "Motor winding inspection & load reduction", "dueDate": "2026-08-18", "costINR": 42000, "priority": "high" },
+    { "id": "MT-8", "machineId": "M-KOL-002", "type": "Emergency", "task": "Cooling system overhaul — thermal runaway risk", "dueDate": "2026-08-17", "costINR": 68000, "priority": "critical" }
+  ]
+}
