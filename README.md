@@ -1,5 +1,7 @@
 # InduGraph AI
 
+It is Built under the guidance of **Prof. Dr. Aritra Bandyopadhyay**
+
 InduGraph AI is a research and operations platform for explainable industrial predictive maintenance. It combines factory, machine, and sensor relationships in a heterogeneous graph so maintenance teams can monitor equipment health, investigate faults, estimate remaining useful life, and understand why a prediction was made.
 
 The repository contains a self-contained demonstration application. It uses sample manufacturing data and simulated telemetry so the complete dashboard can be explored without a database, external model service, or industrial sensor connection.
@@ -32,76 +34,17 @@ The Research Lab provides tools for experiment tracking, model evaluation, graph
 
 ## How it works
 
-1. `server.js` starts an Express server and serves the files in `public/`.
-2. On startup, the server loads `public/data/sample.json` and enriches the machine records with runtime fields.
-3. The frontend is a React application loaded from plain JavaScript files. It requests data from the `/api` endpoints and changes views using URL hashes such as `#Overview` and `#research/ResearchLab`.
-4. Live monitoring uses Server-Sent Events. Every three seconds, the server slightly updates sensor readings and machine health, then streams the snapshot to the browser.
-5. GNN analysis is represented by the API response from the sample data: graph structure, attention paths, sensor contributors, severity, failure mode, and recommended action.
-6. Research content is loaded from `public/data/research.json`. Experiment runs, reports, alerts, notebook entries, and uploads are held in server memory for the duration of the process.
-
-## Requirements
-
-- Node.js 18 or newer
-- npm
-
-## Run locally
-
-```powershell
-npm install
-npm start
-```
-
-Open [http://localhost:3000](http://localhost:3000) in a browser.
-
-For development, `npm run dev` starts the same server. To stop a process using port 3000 on Windows, run:
-
-```powershell
-npm run stop
-```
-
-To use another port:
-
-```powershell
-$env:PORT=3001
-npm start
-```
-
-## Project structure
-
-```text
-server.js             Express API, sample data loading, telemetry simulation
-public/index.html     Browser shell and vendor script references
-public/app.js         React application and hash-based navigation
-public/js/core.js     Shared hooks, utilities, and UI components
-public/js/pages.js    Operations dashboard pages
-public/js/research.js Research Lab pages
-public/data/sample.json
-					   Sample organization, factory, machine, and sensor data
-public/data/research.json
-					   Research experiments, benchmarks, and model metadata
-public/styles.css     Application styles
-uploads/              Runtime destination for uploaded files
-```
-
-## API areas
-
-The server exposes JSON endpoints for:
-
-- Core data: `/api/organization`, `/api/factories`, `/api/machines`
-- Monitoring: `/api/live/stream`, `/api/live/snapshot`
-- AI views: `/api/model-status`, `/api/gnn/graph`, `/api/predictive-maintenance`, `/api/fault-diagnosis`, `/api/anomaly-detection`, `/api/rul-prediction`
-- Operations: `/api/analytics`, `/api/alerts`, `/api/reports`, `/api/upload`, `/api/datasets`
-- Research: `/api/research/*`
-
-The full route implementation is in `server.js`.
+1. On startup, the server loads `public/data/data.json` and enriches the machine records with runtime fields.
+2. The frontend is a React application loaded from a plain JavaScript file.
+3. Live monitoring uses Server-Sent Events. Every three seconds, the server slightly updates sensor readings and machine health, then streams the snapshot to the browser.
+4. GNN analysis is represented by the API response from the data: graph structure, attention paths, sensor contributors, severity, failure mode, and recommended action.
+5. Research content is loaded from `public/data/research.json`. Experiment runs, reports, alerts, notebook entries, and uploads are held in server memory for the duration of the process.
 
 ## Important limitations
 
-- This is a demonstration and research interface, not a production safety system.
-- The current server does not connect to real PLC, SCADA, IoT, or database infrastructure.
-- Telemetry, confidence values, training curves, and some research metrics are generated or simulated.
-- Data created through API actions is lost when the Node.js process restarts.
-- Uploaded files are stored in `uploads/` but are not parsed into the predictive pipeline yet.
+- This is a demonstration and research interface.
+- Telemetry, confidence values, training curves, and some research metrics are simulated.
+- Uploaded files are stored in `uploads/`.
 - Authentication, authorization, tenant isolation, input validation, durable storage, and production observability still need to be added before deployment.
 
 ## License
