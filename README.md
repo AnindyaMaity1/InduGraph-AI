@@ -1,6 +1,6 @@
 # InduGraph AI
 
-It is Built under the guidance of **Prof. Dr. Aritra Bandyopadhyay**
+It is Built under the guidance of **Prof. Dr. Aritra Bandyopadhyay, LinkedIn: [Link]**
 
 InduGraph AI is a research and operations platform for explainable industrial predictive maintenance. It combines factory, machine, and sensor relationships in a heterogeneous graph so maintenance teams can monitor equipment health, investigate faults, estimate remaining useful life, and understand why a prediction was made.
 
